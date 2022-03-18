@@ -1,0 +1,421 @@
+<div class="page-header">
+  <h3 class="page-title">All products</h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:;">All products</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">products</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 text-right mb-3">
+          <button
+            type="button"
+            class="btn btn-social-icon-text btn-facebook"
+            (click)="Addnewproduct(addnewuser)"
+          >
+            <i class="mdi mdi-plus"></i>Add product
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product name</th>
+              <th>Product quantity</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let products of AllProducts">
+              <td>{{ products.id }}</td>
+              <td>{{ products.name }}</td>
+              <td>{{ products.quantity }}</td>
+
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-rounded btn-icon"
+                  (click)="DeleteSelected(deletecontent, products)"
+                >
+                  <i class="mdi mdi-delete"></i>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-warning btn-rounded btn-icon"
+                  (click)="UpdateSelected(updatecontent)"
+                >
+                  <i class="mdi mdi-pen"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- here is the modal needed to add a new user as admin-->
+<ng-template #addnewuser let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Add product</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="addproduct">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>product name</label>
+              <input type="text" class="form-control" formControlName="Name" />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                addproduct.controls['Name'].invalid &&
+                (addproduct.controls['Name'].dirty ||
+                  addproduct.controls['Name'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addproduct.controls['Name'].errors.required"
+              >
+                Product name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product details</label>
+              <textarea
+                class="form-control"
+                formControlName="Details"
+                rows="5"
+              ></textarea>
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                addproduct.controls['Details'].invalid &&
+                (addproduct.controls['Details'].dirty ||
+                  addproduct.controls['Details'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addproduct.controls['Details'].errors.required"
+              >
+                Product details is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product category</label>
+              <select class="form-control" formControlName="CategoryId">
+                <option
+                  *ngFor="let category of Categories"
+                  [value]="category.id"
+                >
+                  {{ category.categoryName }}
+                </option>
+              </select>
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                addproduct.controls['CategoryId'].invalid &&
+                (addproduct.controls['CategoryId'].dirty ||
+                  addproduct.controls['CategoryId'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addproduct.controls['CategoryId'].errors.required"
+              >
+                Product category is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="Quantity"
+                min="0"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                addproduct.controls['Quantity'].invalid &&
+                (addproduct.controls['Quantity'].dirty ||
+                  addproduct.controls['Quantity'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addproduct.controls['Quantity'].errors.required"
+              >
+                Product quantity is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product price</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="Price"
+                min="0"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                addproduct.controls['Price'].invalid &&
+                (addproduct.controls['Price'].dirty ||
+                  addproduct.controls['Price'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addproduct.controls['Price'].errors.required"
+              >
+                Product price is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product Image</label>
+              <input
+                type="file"
+                class="filebtn form-control mx-auto"
+                accept="image/*"
+                (change)="fileUploader($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="addproduct.invalid"
+        (click)="AddProduct()"
+      >
+        Add product
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to delete the selected -->
+<ng-template #deletecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel-2">Delete selected</h5>
+    </div>
+    <div class="modal-body">
+      <h5 class="text-center text-danger">
+        Are you sure to delete selected item ?
+      </h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="DeleteProduct()">
+        Confirm delete
+      </button>
+      <button type="button" class="btn btn-light" (click)="Closemodal()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to update the selected user-->
+<ng-template #updatecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">update product</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="updateproduct">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>product name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="productname"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateproduct.controls['productname'].invalid &&
+                (updateproduct.controls['productname'].dirty ||
+                  updateproduct.controls['productname'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateproduct.controls['productname'].errors.required"
+              >
+                product name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product details</label>
+              <textarea
+                class="form-control"
+                formControlName="productdetails"
+                rows="5"
+              ></textarea>
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateproduct.controls['productdetails'].invalid &&
+                (updateproduct.controls['productdetails'].dirty ||
+                  updateproduct.controls['productdetails'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateproduct.controls['productdetails'].errors.required"
+              >
+                Product details is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product category</label>
+              <select class="form-control" formControlName="productCategory">
+                <option
+                  *ngFor="let category of Categories"
+                  [value]="category.id"
+                >
+                  {{ category.categoryName }}
+                </option>
+              </select>
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateproduct.controls['productCategory'].invalid &&
+                (updateproduct.controls['productCategory'].dirty ||
+                  updateproduct.controls['productCategory'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="
+                  updateproduct.controls['productCategory'].errors.required
+                "
+              >
+                Product category is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Product quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="productquantity"
+                min="0"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateproduct.controls['productquantity'].invalid &&
+                (updateproduct.controls['productquantity'].dirty ||
+                  updateproduct.controls['productquantity'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="
+                  updateproduct.controls['productquantity'].errors.required
+                "
+              >
+                Product Quantity is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="updateproduct.invalid"
+        (click)="UpdateProduct()"
+      >
+        Update product
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>

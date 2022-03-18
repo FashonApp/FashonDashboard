@@ -1,0 +1,232 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="javascript:;" class="nav-link">
+        <div class="nav-profile-image">
+          <img src="assets/images/faces/face1.jpg" alt="profile" />
+          <span class="login-status online"></span>
+          <!--change to offline or busy as needed-->
+        </div>
+        <div class="nav-profile-text">
+          <span class="font-weight-bold mb-2">Admin user</span>
+        </div>
+        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+      </a>
+    </li>
+
+    <li class="nav-item" [ngClass]="{ active: dashboard.isActive }">
+      <a
+        class="nav-link"
+        routerLink="/dashboard"
+        routerLinkActive
+        #dashboard="routerLinkActive"
+      >
+        <span class="menu-title">Dashboard</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+
+    <li
+      class="nav-item"
+      [ngClass]="{
+        active:
+          collar.isActive ||
+          fabric.isActive ||
+          pocket.isActive ||
+          sleeve.isActive ||
+          sleevehem.isActive
+      }"
+    >
+      <a
+        class="nav-link"
+        (click)="uiBasicCollapsed = !uiBasicCollapsed"
+        [attr.aria-expanded]="uiBasicCollapsed"
+        aria-controls="allproducts"
+      >
+        <span class="menu-title">Basic data</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-cart menu-icon"></i>
+      </a>
+      <div class="collapse" id="allproducts" [ngbCollapse]="!uiBasicCollapsed">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-data/fabric"
+              routerLinkActive="active"
+              #pocket="routerLinkActive"
+              >Add fabric</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-data/collar"
+              routerLinkActive="active"
+              #collar="routerLinkActive"
+              >Add collar</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-data/sleeve"
+              routerLinkActive="active"
+              #sleeve="routerLinkActive"
+              >Add sleeve</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-data/sleevehem"
+              routerLinkActive="active"
+              #sleevehem="routerLinkActive"
+              >Add sleevehem</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-data/pocket"
+              routerLinkActive="active"
+              #fabric="routerLinkActive"
+              >Add pocket</a
+            >
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li
+      class="nav-item"
+      [ngClass]="{
+        active: prodcuts.isActive || orders.isActive || categories.isActive
+      }"
+    >
+      <a
+        class="nav-link"
+        (click)="uiBasicCollapsed = !uiBasicCollapsed"
+        [attr.aria-expanded]="uiBasicCollapsed"
+        aria-controls="allproducts"
+      >
+        <span class="menu-title">Products</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-cart menu-icon"></i>
+      </a>
+      <div class="collapse" id="allproducts" [ngbCollapse]="!uiBasicCollapsed">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-ui/products"
+              routerLinkActive="active"
+              #prodcuts="routerLinkActive"
+              >Products</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-ui/orders"
+              routerLinkActive="active"
+              #orders="routerLinkActive"
+              >Orders</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="basic-ui/categories"
+              routerLinkActive="active"
+              #categories="routerLinkActive"
+              >Add Category</a
+            >
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <!-- <li class="nav-item" [ngClass]="{ active: forms.isActive }">
+      <a
+        class="nav-link"
+        routerLink="forms/basic-elements"
+        routerLinkActive
+        #forms="routerLinkActive"
+      >
+        <span class="menu-title">Form elements</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ active: charts.isActive }">
+      <a
+        class="nav-link"
+        routerLink="charts/chartjs"
+        routerLinkActive
+        #charts="routerLinkActive"
+      >
+        <span class="menu-title">Charts</span>
+        <i class="mdi mdi-chart-bar menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ active: tables.isActive }">
+      <a
+        class="nav-link"
+        routerLink="tables/basic-table"
+        routerLinkActive
+        #tables="routerLinkActive"
+      >
+        <span class="menu-title">Tables</span>
+        <i class="mdi mdi-table-large menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ active: icons.isActive }">
+      <a
+        class="nav-link"
+        routerLink="icons/mdi"
+        routerLinkActive
+        #icons="routerLinkActive"
+      >
+        <span class="menu-title">Icons</span>
+        <i class="mdi mdi-contacts menu-icon"></i>
+      </a>
+    </li> -->
+
+    <li
+      class="nav-item"
+      [ngClass]="{
+        active: allusers.isActive
+      }"
+    >
+      <a
+        class="nav-link"
+        (click)="samplePagesCollapsed = !samplePagesCollapsed"
+        [attr.aria-expanded]="samplePagesCollapsed"
+        aria-controls="auth"
+      >
+        <span class="menu-title">Users management</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-account menu-icon"></i>
+      </a>
+      <div class="collapse" id="auth" [ngbCollapse]="!samplePagesCollapsed">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="user-pages/allusers"
+              routerLinkActive="active"
+              #allusers="routerLinkActive"
+            >
+              All users
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</nav>

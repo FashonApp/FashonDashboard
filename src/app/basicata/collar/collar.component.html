@@ -1,0 +1,280 @@
+<div class="page-header">
+  <h3 class="page-title">All collar</h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:;">Basic Data</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">All collar</li>
+    </ol>
+  </nav>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 text-right mb-3">
+          <button
+            type="button"
+            class="btn btn-social-icon-text btn-facebook"
+            (click)="AddNewCollar(addnewcollar)"
+          >
+            <i class="mdi mdi-account-plus"></i>Add collar
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>collar title</th>
+              <th>collar description</th>
+              <th>collar image</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let collar of AllCollars">
+              <td class="py-1">
+                {{ collar.id }}
+              </td>
+              <td>{{ collar.title }}</td>
+              <td>{{ collar.description }}</td>
+              <td>
+                <div *ngIf="collar.image == null">
+                  <img src="../../../assets/images/faces/face1.jpg" />
+                </div>
+                <div *ngIf="collar.image != null">
+                  <img [src]="image_url + collar.image" />
+                </div>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-rounded btn-icon"
+                  (click)="DeleteSelected(deletecontent, collar)"
+                >
+                  <i class="mdi mdi-delete"></i>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-warning btn-rounded btn-icon"
+                  (click)="UpdateSelected(updatecontent, collar)"
+                >
+                  <i class="mdi mdi-pen"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- here is the modal needed to add a new user as admin-->
+<ng-template #addnewcollar let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Add collar</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="addcollarform">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Collar title</label>
+              <input class="form-control" formControlName="Title" type="text" />
+            </div>
+            <!-- validation section here-->
+            <div
+              *ngIf="
+                addcollarform.controls['Title'].invalid &&
+                (addcollarform.controls['Title'].dirty ||
+                  addcollarform.controls['Title'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addcollarform.controls['Title'].errors.required"
+              >
+                Collar title is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Collar description</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Description"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                addcollarform.controls['Description'].invalid &&
+                (addcollarform.controls['Description'].dirty ||
+                  addcollarform.controls['Description'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addcollarform.controls['Description'].errors.required"
+              >
+                Collar description is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Collar Image</label>
+              <input
+                type="file"
+                class="filebtn form-control mx-auto"
+                accept="image/*"
+                (change)="fileUploader($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="addcollarform.invalid"
+        (click)="AddCollar()"
+      >
+        Add collar
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to delete the selected -->
+<ng-template #deletecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel-2">Delete selected</h5>
+    </div>
+    <div class="modal-body">
+      <h5 class="text-center text-danger">
+        Are you sure to delete selected item ?
+      </h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="DeleteCollar()">
+        Confirm delete
+      </button>
+      <button type="button" class="btn btn-light" (click)="Closemodal()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to update the selected user-->
+<ng-template #updatecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">update collar</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="updatecollarform">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>collar title</label>
+              <input class="form-control" formControlName="Title" type="text" />
+            </div>
+            <!-- validation section here-->
+            <div
+              *ngIf="
+                updatecollarform.controls['Title'].invalid &&
+                (updatecollarform.controls['Title'].dirty ||
+                  updatecollarform.controls['Title'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updatecollarform.controls['Title'].errors.required"
+              >
+                collar title is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>collar description</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Description"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updatecollarform.controls['Description'].invalid &&
+                (updatecollarform.controls['Description'].dirty ||
+                  updatecollarform.controls['Description'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updatecollarform.controls['Description'].errors.required"
+              >
+                collar description is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12" *ngIf="CollarImg != null">
+            <p class="text-center mb-2 fw-bold">Uploaded Collar Image</p>
+            <img class="uploaded-catImg" [src]="CollarImg" />
+          </div>
+
+          <div class="col-md-12" *ngIf="CollarImg == null">
+            <p class="text-center text-danger fw-bold">
+              {{ CollarImgError }}
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="UpdateCollar()">
+        Update collar
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>

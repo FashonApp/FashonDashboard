@@ -1,0 +1,56 @@
+<div class="page-header">
+  <h3 class="page-title">All products</h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:;">All products</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">orders</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Username</th>
+              <th>Usermobile</th>
+              <th>Useraddress</th>
+              <th>Order quantity</th>
+              <th>Order price</th>
+              <th>Product details</th>
+              <th>Product category</th>
+              <th>Product size</th>
+              <th>Product color</th>
+              <th>Product image</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let orders of AllOrders">
+              <td>{{ orders.id }}</td>
+              <td>
+                {{ orders.OrderUsername }}
+              </td>
+              <td>{{ orders.OrderUserMobilePhone }}</td>
+              <td>{{ orders.OrderUserAddress }}</td>
+              <td>{{ orders.OrderQuantity }}</td>
+              <td>{{ orders.TotalPrice }}</td>
+              <td>{{ orders.ProductDetails }}</td>
+              <td>{{ orders.ProductCategory }}</td>
+              <td>{{ orders.ProductSize }}</td>
+              <td>{{ orders.ProductColor }}</td>
+              <td>
+                <img [src]="orders.ProductImage" alt="product image" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

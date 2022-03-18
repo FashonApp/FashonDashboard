@@ -1,0 +1,250 @@
+<div class="page-header">
+  <h3 class="page-title">All Categories</h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:;">Add Categories</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">All Categories</li>
+    </ol>
+  </nav>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 text-right mb-3">
+          <button
+            type="button"
+            class="btn btn-social-icon-text btn-facebook"
+            (click)="AddCategory(addnewcategory)"
+          >
+            <i class="mdi mdi-account-plus"></i>Add category
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Category Name</th>
+              <th>Category Image</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let category of Categories">
+              <td class="py-1">
+                {{ category.id }}
+              </td>
+              <td>
+                {{ category.categoryName }}
+              </td>
+              <td>
+                <div *ngIf="category.categoryImage == null">
+                  <img src="../../../assets/images/faces/face1.jpg" />
+                </div>
+                <div *ngIf="category.categoryImage != null">
+                  <img [src]="image_url + category.categoryImage" />
+                </div>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-rounded btn-icon"
+                  (click)="ConfirmDelete(deletecontent, category)"
+                >
+                  <i class="mdi mdi-delete"></i>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-warning btn-rounded btn-icon"
+                  (click)="UpdateCategory(updatecontent, category)"
+                >
+                  <i class="mdi mdi-pen"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- here is the modal needed to add a new user as admin-->
+<ng-template #addnewcategory let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Add category</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="addcategory">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Category Name</label>
+              <input
+                class="form-control"
+                formControlName="categoryName"
+                type="text"
+              />
+            </div>
+            <!-- validation section here-->
+            <div
+              *ngIf="
+                addcategory.controls['categoryName'].invalid &&
+                (addcategory.controls['categoryName'].dirty ||
+                  addcategory.controls['categoryName'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="addcategory.controls['categoryName'].errors.required"
+              >
+                Category name is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Category Image</label>
+              <input
+                type="file"
+                class="filebtn form-control mx-auto"
+                accept="image/*"
+                (change)="fileUploader($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="addcategory.invalid"
+        (click)="AddnewCategory()"
+      >
+        Add category
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to delete the selected -->
+<ng-template #deletecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel-2">Delete selected</h5>
+    </div>
+    <div class="modal-body">
+      <h5 class="text-center text-danger">
+        Are you sure to delete selected category ?
+      </h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="DeleteCategory()">
+        Confirm delete
+      </button>
+      <button type="button" class="btn btn-light" (click)="Closemodal()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to update the selected user-->
+<ng-template #updatecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">update category</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="updatecategory">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Category Name</label>
+              <input
+                class="form-control"
+                formControlName="categoryName"
+                type="text"
+              />
+            </div>
+            <!-- validation section here-->
+            <div
+              *ngIf="
+                updatecategory.controls['categoryName'].invalid &&
+                (updatecategory.controls['categoryName'].dirty ||
+                  updatecategory.controls['categoryName'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updatecategory.controls['categoryName'].errors.required"
+              >
+                Category name is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Category Image</label>
+              <input
+                type="file"
+                class="filebtn form-control mx-auto"
+                accept="image/*"
+                (change)="FileUploaderUpdate($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12" *ngIf="CateogryImg != null">
+            <p class="text-center mb-2 fw-bold">Uploaded Category Image</p>
+            <img class="uploaded-catImg" [src]="CateogryImg" />
+          </div>
+
+          <div class="col-md-12" *ngIf="CateogryImg == null">
+            <p class="text-center text-danger fw-bold">
+              {{ CategoryImgError }}
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="UpdateSelectedCategory()"
+      >
+        Update category
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>

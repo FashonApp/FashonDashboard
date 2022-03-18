@@ -1,0 +1,561 @@
+<div class="page-header">
+  <h3 class="page-title">All users</h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:;">Users management</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">All users</li>
+    </ol>
+  </nav>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 text-right mb-3">
+          <button
+            type="button"
+            class="btn btn-social-icon-text btn-facebook"
+            (click)="AddUserAdminmodal(addnewuser)"
+          >
+            <i class="mdi mdi-account-plus"></i>Add user
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User Name</th>
+              <th>First name</th>
+              <th>Middle name</th>
+              <th>Last name</th>
+              <th>phone number</th>
+              <th>email</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of AllUsers">
+              <td class="py-1">
+                {{ user.id }}
+              </td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.middleName }}</td>
+              <td>{{ user.lastName }}</td>
+              <td>{{ user.phone }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-rounded btn-icon"
+                  (click)="DeleteSelected(deletecontent, user)"
+                >
+                  <i class="mdi mdi-delete"></i>
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-warning btn-rounded btn-icon"
+                  (click)="UpdateSelected(updatecontent, user)"
+                >
+                  <i class="mdi mdi-pen"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- here is the modal needed to add a new user as admin-->
+<ng-template #addnewuser let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Add admin user</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="adduserForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>User name</label>
+              <input
+                class="form-control"
+                formControlName="Username"
+                type="text"
+              />
+            </div>
+            <!-- validation section here-->
+            <div
+              *ngIf="
+                adduserForm.controls['Username'].invalid &&
+                (adduserForm.controls['Username'].dirty ||
+                  adduserForm.controls['Username'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="adduserForm.controls['Username'].errors.required"
+              >
+                User name is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>First name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Firstname"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                adduserForm.controls['Firstname'].invalid &&
+                (adduserForm.controls['Firstname'].dirty ||
+                  adduserForm.controls['Firstname'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="adduserForm.controls['Firstname'].errors.required"
+              >
+                Fist name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Middle name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Middlename"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                adduserForm.controls['Middlename'].invalid &&
+                (adduserForm.controls['Middlename'].dirty ||
+                  adduserForm.controls['Middlename'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="adduserForm.controls['Middlename'].errors.required"
+              >
+                Middle name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Lastname"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                adduserForm.controls['Lastname'].invalid &&
+                (adduserForm.controls['Lastname'].dirty ||
+                  adduserForm.controls['Lastname'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="adduserForm.controls['Lastname'].errors.required"
+              >
+                Last name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Phone number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="phonenumber"
+                min="0"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                adduserForm.controls['phonenumber'].invalid &&
+                (adduserForm.controls['phonenumber'].dirty ||
+                  adduserForm.controls['phonenumber'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="adduserForm.controls['phonenumber'].errors.required"
+              >
+                Phone number is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="text" class="form-control" formControlName="email" />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                adduserForm.controls['email'].invalid &&
+                (adduserForm.controls['email'].dirty ||
+                  adduserForm.controls['email'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="adduserForm.controls['email'].errors.required"
+              >
+                Email address is required
+              </div>
+
+              <div
+                class="animate__animated animate__flash"
+                *ngIf="adduserForm.controls['email'].errors.pattern"
+              >
+                Wrong email format
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+              />
+            </div>
+            <div
+              *ngIf="
+                adduserForm.controls['password'].invalid &&
+                (adduserForm.controls['password'].dirty ||
+                  adduserForm.controls['password'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="adduserForm.controls['password'].errors.required"
+              >
+                Password is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Confirm password</label>
+
+              <input
+                type="password"
+                class="form-control"
+                formControlName="passwordConfirm"
+                (keyup)="checkPassword()"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        [disabled]="adduserForm.invalid"
+        (click)="Sumbitnewuser()"
+      >
+        Add user
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to delete the selected -->
+<ng-template #deletecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel-2">Delete selected</h5>
+    </div>
+    <div class="modal-body">
+      <h5 class="text-center text-danger">
+        Are you sure to delete selected item ?
+      </h5>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="ConfirmDeleteSelected()"
+      >
+        Confirm delete
+      </button>
+      <button type="button" class="btn btn-light" (click)="Closemodal()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- here is the modal needed to update the selected user-->
+<ng-template #updatecontent let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">update admin user</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="updateuserform">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>First name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Username"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateuserform.controls['Username'].invalid &&
+                (updateuserform.controls['Username'].dirty ||
+                  updateuserform.controls['Username'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateuserform.controls['Username'].errors.required"
+              >
+                Fist name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>First name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Firstname"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateuserform.controls['Firstname'].invalid &&
+                (updateuserform.controls['Firstname'].dirty ||
+                  updateuserform.controls['Firstname'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateuserform.controls['Firstname'].errors.required"
+              >
+                Fist name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Middle name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Middlename"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateuserform.controls['Middlename'].invalid &&
+                (updateuserform.controls['Middlename'].dirty ||
+                  updateuserform.controls['Middlename'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateuserform.controls['Middlename'].errors.required"
+              >
+                Middle name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Lastname"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateuserform.controls['Lastname'].invalid &&
+                (updateuserform.controls['Lastname'].dirty ||
+                  updateuserform.controls['Lastname'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateuserform.controls['Lastname'].errors.required"
+              >
+                Last name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Phone number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="phonenumber"
+                min="0"
+              />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateuserform.controls['phonenumber'].invalid &&
+                (updateuserform.controls['phonenumber'].dirty ||
+                  updateuserform.controls['phonenumber'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateuserform.controls['phonenumber'].errors.required"
+              >
+                Phone number is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="text" class="form-control" formControlName="email" />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateuserform.controls['email'].invalid &&
+                (updateuserform.controls['email'].dirty ||
+                  updateuserform.controls['email'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateuserform.controls['email'].errors.required"
+              >
+                Email address is required
+              </div>
+
+              <div
+                class="animate__animated animate__flash"
+                *ngIf="updateuserform.controls['email'].errors.pattern"
+              >
+                Wrong email format
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" formControlName="password" />
+            </div>
+            <!-- validation section goes here-->
+            <div
+              *ngIf="
+                updateuserform.controls['password'].invalid &&
+                (updateuserform.controls['password'].dirty ||
+                  updateuserform.controls['password'].touched)
+              "
+              class="text-danger"
+            >
+              <div
+                class="required-error"
+                *ngIf="updateuserform.controls['password'].errors.required"
+              >
+                Password is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="ConfirmUpdate()">
+        Update user
+      </button>
+      <button
+        type="button"
+        class="btn btn-light"
+        data-dismiss="modal"
+        (click)="Closemodal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
